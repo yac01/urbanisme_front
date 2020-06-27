@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, observable } from 'rxjs';
 import { environment } from '../../../environments/environment.prod';
 import { Injectable } from '@angular/core';
 
@@ -14,11 +14,11 @@ export class HttpService {
     constructor(private http: HttpClient) {
 
     }
-
     public exchange(endpoint: string, method: HttpMethod, opts: {headers?: {name: string, value: string} [],
-        body?: any,
-        pathParams?: {name: string, value: string} [],
-        reqParam?: {name: string, value: string} []}): Observable<any> | Observable<[]> {
+          body?: any,
+          pathParams?: {name: string, value: string} [],
+          reqParams?: {name: string, value: string} []},
+          response? : boolean): Observable<any> | Observable<[]> {
         const headers = new HttpHeaders();
         if (method === HttpMethod.GET && opts.body) {
             throw new Error( 'Method get should not have a body');
@@ -36,8 +36,8 @@ export class HttpService {
             });
         }
 
-        if (opts.reqParam) {
-            opts.reqParam.forEach((rp, index) => {
+        if (opts.reqParams) {
+            opts.reqParams.forEach((rp, index) => {
                 if (index === 0) {
                     endpoint += `?${rp.name}=${rp.value}`;
                 } else {
@@ -48,7 +48,11 @@ export class HttpService {
         if (method === HttpMethod.GET) {
             return this.http.get(endpoint, {headers});
         } else if (method === HttpMethod.POST) {
-            return this.http.post(endpoint, opts.body, {headers});
+            if (response) {
+                return this.http.post(endpoint, opts.body, {headers, observe: 'response'});
+            } else {
+                return this.http.post(endpoint, opts.body, {headers, observe: 'body'});
+            }
         } else if (method === HttpMethod.PUT) {
             return this.http.put(endpoint, opts.body, {headers});
         }

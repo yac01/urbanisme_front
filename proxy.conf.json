@@ -3,5 +3,10 @@
         "target": "http://localhost:8888/",
         "secure": false,
         "timeout": 600000
+    },
+    "/jwt/*": {
+        "target": "http://localhost:8889/",
+        "secure": false,
+        "timeout": 600000
     }
 }
