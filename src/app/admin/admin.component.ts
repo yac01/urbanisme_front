@@ -1,12 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource} from '@angular/material';
-import {MatPaginator} from '@angular/material/paginator';
-
-
-const data = [
-  {username: 'username', email: 'Hydrogen', group: 1.0079, administration: false, processing: true},
-];
-
+import {MatPaginator} from '@angular/material';
+import { AdminDatasource } from './admin.datasource';
+import { HttpService, HttpMethod } from '../shared/abstract/http.service';
+import { AbstractDataSource } from './../shared/abstract/abstract-datasource';
 
 @Component({
   selector: 'app-admin',
@@ -16,16 +12,22 @@ const data = [
 
 export class AdminComponent implements OnInit {
   displayedColumns = ['username', 'email', 'group', 'administration', 'processing'];
-  dataSource = new MatTableDataSource(data);
-  constructor() { }
+  dataSource: AbstractDataSource<any>;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  ngOnInit() {
-    this.dataSource.paginator = this.paginator;
+  @ViewChild(MatPaginator) paginator;
+  constructor(private service: HttpService) {
   }
 
+  ngOnInit() {
+    this.dataSource = new AdminDatasource(this.paginator, this.service);
+  }
 
+  handlePermission(role: string, username: string, val: boolean) {
+    const mode = val ? 'ADD' : 'REM';
+    this.service.exchange(`/urban/user/role/${mode}/{roleName}/{username}`,
+    HttpMethod.PUT, {pathParams :  [{name: 'roleName', value: role}, {name: 'username', value: username}]}
+    );
+  }
 }
 
 

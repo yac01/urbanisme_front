@@ -1,10 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.prod';
+import { Injectable } from '@angular/core';
 
 export enum HttpMethod {
-    GET = 'GET', POST = 'POST'
+    GET = 'GET', POST = 'POST', PUT = 'PUT'
 }
+@Injectable({
+    providedIn: 'root'
+})
 export class HttpService {
     private regex = new RegExp('^.*[\{].*[\}].*');
     constructor(private http: HttpClient) {
@@ -45,6 +49,8 @@ export class HttpService {
             return this.http.get(endpoint, {headers});
         } else if (method === HttpMethod.POST) {
             return this.http.post(endpoint, opts.body, {headers});
+        } else if (method === HttpMethod.PUT) {
+            return this.http.put(endpoint, opts.body, {headers});
         }
         throw new Error('Unsupported method');
     }
