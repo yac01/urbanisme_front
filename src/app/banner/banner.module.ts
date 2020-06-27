@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatToolbarModule, MatIconModule, MatButtonModule } from '@angular/material';
 import { BannerComponent } from './banner.component';
 
 @NgModule({
@@ -8,6 +8,8 @@ import { BannerComponent } from './banner.component';
   imports: [
   CommonModule,
     MatToolbarModule,
+    MatIconModule,
+    MatButtonModule
   ],
   exports: [
     BannerComponent
