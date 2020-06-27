@@ -4,12 +4,15 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-banner',
   template: `
     <mat-toolbar color="primary">
-      <button mat-icon-button color="secondary" aria-label="Example icon button with a home icon">
+      <button mat-icon-button color="secondary" aria-label="some icon">
         <mat-icon>menu</mat-icon>
       </button>
+      <a mat-button  class="b-m-r" [routerLink]="['/admin']">Administration</a>
+      <a mat-button  class="b-m-r" [routerLink]="['/issues']">Incidents</a>
     </mat-toolbar>
   `,
-  styles: []
+  styleUrls: ['./banner.component.css']
+
 })
 export class BannerComponent implements OnInit {
 

@@ -1,0 +1,7 @@
+{
+    "/urban/*": {
+        "target": "http://localhost:8888/",
+        "secure": false,
+        "timeout": 600000
+    }
+}
