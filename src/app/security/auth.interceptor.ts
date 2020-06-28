@@ -22,11 +22,14 @@ export class JwtInterceptor implements HttpInterceptor {
                 Authorization: `Bearer ${accessToken}`
               }
             });
+        } else {
+            return this.router.navigate['login'];
         }
         return next.handle(req).pipe(
             catchError((err) => {
                 if (err instanceof HttpErrorResponse && err.status === 401) {
-                    this.router.navigate(['login']);
+                    this.authService.refresh();
+                    return next.handle(req);
                 }
                 return EMPTY;
             })

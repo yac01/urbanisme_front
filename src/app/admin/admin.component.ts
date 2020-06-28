@@ -21,7 +21,6 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource = new AdminDatasource(this.paginator, this.service);
-    this.s.login('admin', 'admin');
   }
 
   handlePermission(event: MatCheckboxChange, role: string, username: string) {

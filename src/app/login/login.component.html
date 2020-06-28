@@ -1,0 +1,22 @@
+<div class="mat-elevation-z2 flex flex-center" style="width:70%; margin-left:15%; margin-top:50px; padding:10px;">
+  <div class="flex flex-colmun flex-center">
+    <form action="#" [formGroup]="group">
+      <mat-form-field class="full-width">
+        <mat-label>Login</mat-label>
+        <input matInput placeholder="Username"  formControlName="username">
+        <mat-error *ngIf="group.controls.username?.invalid">Ce champ est obligatoire</mat-error>
+      </mat-form-field>
+    
+      <mat-form-field class="full-width top-space-little">
+        <mat-label>Entrer votre mot de passe</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="group.controls.password?.invalid">Ce champ est obligatoire</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="accent" class="full-width top-space-little" (click)="login()" [disabled]="!group.touched || group.invalid">Se connecter</button>
+    </form>
+  </div>
+</div>
+
