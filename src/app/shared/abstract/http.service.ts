@@ -19,7 +19,7 @@ export class HttpService {
           pathParams?: {name: string, value: string} [],
           reqParams?: {name: string, value: string} []},
           response? : boolean): Observable<any> | Observable<[]> {
-        const headers = new HttpHeaders();
+        let headers = new HttpHeaders();
         if (method === HttpMethod.GET && opts.body) {
             throw new Error( 'Method get should not have a body');
         }
@@ -27,7 +27,7 @@ export class HttpService {
         if (opts.headers) {
             opts.headers.forEach(h => headers.append(h.name, h.value));
         } else {
-            headers.append('Content-Type', 'application/json');
+            headers = headers.append('Content-Type', 'application/json');
         }
 
         if (opts.pathParams && this.regex.test(endpoint)) {
