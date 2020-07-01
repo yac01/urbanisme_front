@@ -1,14 +1,15 @@
 import { HttpService, HttpMethod } from '../shared/abstract/http.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
     authenticatedUser: {access_token: string, refresh_token: string, authorities: string []};
-
-    constructor(private http: HttpService, private router: Router) {
+    constructor(private http: HttpService, private router: Router, private toastr: ToastrService) {
 
     }
     public login(username: string, password: string) {
@@ -21,9 +22,14 @@ export class AuthService {
             };
             this.router.navigate(['admin']);
         }, err => {
-            console.log(err);
+            if (err.status === 401) {
+                this.toastr.error(`erreur d'autentification. identifiant mot de passe incorrect`);
+            } else if (err.status >= 500) {
+                this.toastr.warning(`Erreur interne, application indisponible. réessayer ultérieurement`);
+            }
         });
     }
+
 
     public refresh() {
         this.http.exchange('/jwt/refresh', HttpMethod.POST,

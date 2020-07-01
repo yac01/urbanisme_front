@@ -10,14 +10,15 @@ import { AuthService } from './../services/auth.service';
 export class LoginComponent implements OnInit {
   hide = true;
   group: FormGroup;
+
   constructor(private fb: FormBuilder, private authService: AuthService) {
+  }
+
+  ngOnInit() {
     this.group = this.fb.group({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
     });
-  }
-
-  ngOnInit() {
   }
 
   login() {
