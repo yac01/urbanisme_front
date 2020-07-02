@@ -8,6 +8,7 @@ import { HttpMethod, HttpService } from './http.service';
 
 export class AbstractDataSource<T> extends DataSource<T> {
     criteria = new BehaviorSubject(null);
+    refresh = new BehaviorSubject(false);
     private paginationParamAppended = false;
     // tslint:disable-next-line: max-line-length
     constructor(private paginator: MatPaginator, private httpService: HttpService, private endpoint: string, private method: HttpMethod, private opts: {
@@ -25,7 +26,7 @@ export class AbstractDataSource<T> extends DataSource<T> {
     }
 
     connect(collectionViewer: CollectionViewer): any | any [] {
-        return merge(this.criteria, this.paginator.page).pipe(
+        return merge(this.criteria, this.paginator.page, this.refresh).pipe(
             filter(v => v !== null),
             startWith([]),
             switchMap(() => {
@@ -38,6 +39,10 @@ export class AbstractDataSource<T> extends DataSource<T> {
     }
     disconnect(collectionViewer: CollectionViewer): void {
 
+    }
+
+    public triggerRefresh() {
+        this.refresh.next(true);
     }
 
 }

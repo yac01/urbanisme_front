@@ -7,7 +7,12 @@ import { Component, OnInit } from '@angular/core';
       <button mat-icon-button color="secondary" aria-label="some icon">
         <mat-icon>menu</mat-icon>
       </button>
-      <a mat-button  class="b-m-r" [routerLink]="['/admin']">Administration</a>
+      <button mat-button class="b-m-r" [matMenuTriggerFor]="adminMenu">Administration</button>
+      <mat-menu #adminMenu="matMenu">
+        <button mat-menu-item [routerLink]="['/admin/user']">Liste</button>
+        <button mat-menu-item [routerLink]="['/admin/create']">Nouveau</button>
+        <button mat-menu-item [routerLink]="['/admin/group']">Groupes</button>
+      </mat-menu>
       <a mat-button  class="b-m-r" [routerLink]="['/issues']">Incidents</a>
     </mat-toolbar>
   `,

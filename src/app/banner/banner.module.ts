@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule, MatIconModule, MatButtonModule } from '@angular/material';
+import { MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule } from '@angular/material';
 import { BannerComponent } from './banner.component';
 import { RouterModule } from '@angular/router';
 
@@ -12,7 +12,8 @@ CommonModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    MatMenuModule
   ],
   exports: [
     BannerComponent
