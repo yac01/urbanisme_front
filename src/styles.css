@@ -20,3 +20,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .top-space-little {
     margin-top: 10px;
 }
+.bottom-space-little {
+    margin-bottom: 10px;
+}
+.top-space-heading {
+    margin-top: 50px;
+}
+.full-width {
+    width: 100%;
+}

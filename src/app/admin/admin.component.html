@@ -23,14 +23,14 @@
     <ng-container matColumnDef="administration">
       <th mat-header-cell *matHeaderCellDef>Administration</th>
       <td mat-cell *matCellDef="let element">
-        <mat-checkbox [checked]="element.administration" (change)="handlePermission($event, 'admin', element.username)"></mat-checkbox>
+        <mat-checkbox [checked]="hasPermission(element, 'admin')" (change)="handlePermission($event, 'admin', element.username)"></mat-checkbox>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="processing">
       <th mat-header-cell *matHeaderCellDef>Traitement</th>
       <td mat-cell *matCellDef="let element">
-        <mat-checkbox [checked]="element.processing" (change)="handlePermission($event, 'employee', element.username)"></mat-checkbox>
+        <mat-checkbox [checked]="hasPermission(element, 'employee')" (change)="handlePermission($event, 'employee', element.username)"></mat-checkbox>
       </td>
     </ng-container>
 

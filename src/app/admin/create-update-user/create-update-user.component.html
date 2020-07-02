@@ -1,16 +1,48 @@
-  <form [formGroup]="group" class="mat-elevation-z2">
+  <form [formGroup]="group" class="mat-elevation-z2 top-space-heading">
     <div class="row">
-      <div class="col-md-6">
-        <mat-form-field>
+      <div class="col">
+        <mat-form-field class="form-field">
           <mat-label>Nom d'utilistateur</mat-label>
           <input matInput placeholder="utilisateur1" formControlName="username">
+          <mat-error *ngIf="group.controls.username?.errors?.required">Ce champ est obligatoire</mat-error>
         </mat-form-field>
       </div>
-      <div class="col-md-6">
-        <mat-form-field>
+      <div class="col">
+        <mat-form-field class="form-field">
           <mat-label>Email</mat-label>
           <input matInput placeholder="email" formControlName="email">
+          <mat-error *ngIf="group.controls.email?.errors?.required">Ce champ est obligatoire</mat-error>
+          <mat-error *ngIf="group.controls.email?.errors?.email">Ce n'est pas un email valide</mat-error>
         </mat-form-field>
+      </div>
+    </div>
+    <div class="row top-space-little">
+      <div class="col-md-6">
+        <mat-form-field class="form-field">
+          <mat-label>Entrer votre mot de passe</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="group.controls.password?.invalid">Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row top-space-little">
+      <div class="col form-field">
+            <mat-checkbox formControlName="isAdmin">Droits d'administration</mat-checkbox>
+      </div>
+      <div class="col form-field">
+          <mat-checkbox formControlName="isEmployee">Droits de traitement (employé)</mat-checkbox>
+      </div>
+    </div>
+    <div class="row top-space-little">
+      <div class="col bottom-space-little">
+        <div style="margin-right:15px">
+          <button mat-raised-button color="accent" (click)="create()" [disabled]="group.invalid" class="float-right" style="margin-right:15px;margin-left:15px">Créer utilisateur</button>
+          <button mat-raised-button color="light" class="float-right" (click)="back()" >Retour</button>
+        </div>
+
       </div>
     </div>
   </form>

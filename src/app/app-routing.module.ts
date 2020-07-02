@@ -5,8 +5,10 @@ import { LoginComponent } from './login/login.component';
 import {CreateUpdateUserComponent} from './admin/create-update-user/create-update-user.component';
 
 const routes: Routes = [
-  {path: 'admin', component: AdminComponent, children : [
-    {path: 'create', component: CreateUpdateUserComponent}
+  {path: 'admin', children : [
+    {path: 'create', component: CreateUpdateUserComponent},
+    {path: 'user', component: AdminComponent},
+    {path : '**', redirectTo: 'admin'}
   ]},
   {path: 'login', component: LoginComponent},
 ];

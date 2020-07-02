@@ -12,7 +12,8 @@ import { CreateUpdateUserComponent } from './create-update-user/create-update-us
     SharedModule
   ],
   exports: [
-    AdminComponent
+    AdminComponent,
+    CreateUpdateUserComponent
   ]
 })
 export class AdminModule { }

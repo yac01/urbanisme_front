@@ -4,12 +4,13 @@ import { AuthService } from './../services/auth.service';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
     providedIn: 'root'
 })
 export class JwtInterceptor implements HttpInterceptor {
-    constructor(private authService: AuthService, private router: Router) {
+    constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -22,7 +23,7 @@ export class JwtInterceptor implements HttpInterceptor {
                 req = this.appendHeader(req, accessToken);
             } else {
                 // tslint:disable-next-line: no-unused-expression
-                this.router.navigateByUrl('/login');
+                this.router.navigateByUrl('/login').then(_res => this.toastr.warning('Vous devez être authentifié pour y accéder'));
                 return EMPTY;
             }
             return next.handle(req).pipe(
@@ -33,8 +34,8 @@ export class JwtInterceptor implements HttpInterceptor {
                             this.appendHeader(req, this.authService.authenticatedUser.access_token);
                             return next.handle(req);
                         }
+                        this.router.navigateByUrl('/login').then(_res => this.toastr.warning('Vous devez être authentifié pour y accéder'));
                     }
-                    this.router.navigateByUrl('/login');
                     return EMPTY;
                 })
             );
