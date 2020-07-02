@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule, MatButtonModule, MatCheckboxModule, MatPaginatorModule, MatFormField, MatFormFieldModule, MatInputModule, MatIconModule, MatMenuModule } from '@angular/material';
+import { MatTableModule, MatButtonModule, MatCheckboxModule, MatPaginatorModule, MatFormField, MatFormFieldModule, MatInputModule, MatIconModule, MatMenuModule, MatSelectModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { ArrPipe } from './arr.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [ArrPipe],
   imports: [
 
   CommonModule,
@@ -19,7 +20,8 @@ import { ToastrModule } from 'ngx-toastr';
     ToastrModule.forRoot(),
     MatInputModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSelectModule
   ],
   exports: [
     MatTableModule,
@@ -32,7 +34,9 @@ import { ToastrModule } from 'ngx-toastr';
     FormsModule,
     ReactiveFormsModule,
     ToastrModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSelectModule,
+    ArrPipe
   ]
 })
 export class SharedModule { }

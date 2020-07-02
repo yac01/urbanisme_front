@@ -28,6 +28,17 @@
         </mat-form-field>
       </div>
     </div>
+
+    <div class="row top-space-little">
+      <div class="col-md-6">
+        <mat-form-field class="form-field">
+          <mat-label>Groupes</mat-label>
+          <mat-select formControlName="groups" multiple>
+            <mat-option *ngFor="let g of availableGroup" [value]="g.name">{{g.name}} - {{g.description}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
     <div class="row top-space-little">
       <div class="col form-field">
             <mat-checkbox formControlName="isAdmin">Droits d'administration</mat-checkbox>

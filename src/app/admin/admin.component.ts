@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 
 export class AdminComponent implements OnInit {
-  displayedColumns = ['username', 'email', 'group', 'administration', 'processing'];
+  displayedColumns = ['username', 'email', 'group', 'administration', 'processing', 'groups'];
   dataSource: AbstractDataSource<any>;
 
   @ViewChild(MatPaginator) paginator;
