@@ -10,7 +10,8 @@ import { BannerModule } from './banner/banner.module';
 import { AdminModule } from './admin/admin.module';
 import { SharedModule } from './shared/shared.module';
 import { JwtInterceptor } from './security/auth.interceptor';
-
+import { PaginationIntl } from './shared/pagination-intls';
+import { MatPaginatorIntl } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,9 @@ BrowserModule,
     LoginModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    { provide: MatPaginatorIntl, useClass: PaginationIntl }
+
   ],
   bootstrap: [AppComponent]
 })

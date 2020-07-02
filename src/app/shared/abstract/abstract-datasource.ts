@@ -5,6 +5,7 @@ import { BehaviorSubject, merge } from 'rxjs';
 import { filter, map, startWith, switchMap } from 'rxjs/operators';
 
 import { HttpMethod, HttpService } from './http.service';
+import { HttpResponse } from '@angular/common/http';
 
 export class AbstractDataSource<T> extends DataSource<T> {
     criteria = new BehaviorSubject(null);
@@ -32,9 +33,15 @@ export class AbstractDataSource<T> extends DataSource<T> {
             switchMap(() => {
                 this.opts.reqParams.find(x => x.name === 'limit').value = this.paginator.pageSize.toString();
                 this.opts.reqParams.find(x => x.name === 'offset').value = this.paginator.pageIndex.toString();
-                return this.httpService.exchange(this.endpoint, this.method, this.opts);
+                return this.httpService.exchange(this.endpoint, this.method, this.opts, true);
             }),
-            map(res => res)
+            map((res: HttpResponse<any>) => {
+                const totalCount = res.headers.get('X-TOTAL-COUNT');
+                if (totalCount) {
+                    this.paginator.length = Number.parseInt(totalCount, 10);
+                }
+                return res.body;
+            })
         );
     }
     disconnect(collectionViewer: CollectionViewer): void {

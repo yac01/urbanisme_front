@@ -46,7 +46,13 @@ export class HttpService {
             });
         }
         if (method === HttpMethod.GET) {
-            return this.http.get(endpoint, {headers});
+            if (response) {
+                return this.http.get(endpoint, {headers, observe: 'response'});
+            } else {
+                return this.http.get(endpoint, {headers, observe: 'body'});
+
+            }
+
         } else if (method === HttpMethod.POST) {
             if (response) {
                 return this.http.post(endpoint, opts.body, {headers, observe: 'response'});
