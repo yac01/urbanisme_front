@@ -5,9 +5,10 @@ import { LoginComponent } from './login/login.component';
 import {CreateUpdateUserComponent} from './admin/create-update-user/create-update-user.component';
 import { GroupComponent } from './admin/group/group.component';
 import { GroupResolver } from './resolver/group.resolver';
+import { AdminGuard } from './security/admin.guard';
 
 const routes: Routes = [
-  {path: 'admin', children : [
+  {path: 'admin', canActivateChild: [AdminGuard], children : [
     {path: 'create', component: CreateUpdateUserComponent, resolve: {
       availableGroup: GroupResolver
     }},

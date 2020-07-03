@@ -1,7 +1,7 @@
 import { HttpService, HttpMethod } from '../shared/abstract/http.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import * as jwt_decode from 'jwt-decode';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
@@ -9,6 +9,13 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AuthService {
     authenticatedUser: {access_token: string, refresh_token: string, authorities: string []};
+    private _decoded;
+    get decoded() {
+        if (!this._decoded && this.authenticatedUser) {
+            this._decoded = jwt_decode(this.authenticatedUser.access_token);
+        }
+        return this._decoded;
+    }
     constructor(private http: HttpService, private router: Router, private toastr: ToastrService) {
         const authAsString = localStorage.getItem('auth');
         if (authAsString) {
@@ -24,6 +31,7 @@ export class AuthService {
                 authorities: []
             };
             localStorage.setItem('auth', JSON.stringify(this.authenticatedUser));
+            this._decoded = jwt_decode(this.authenticatedUser.access_token);
             this.router.navigateByUrl('/admin/user');
         }, err => {
             if (err.status === 401) {
@@ -45,5 +53,18 @@ export class AuthService {
                 authorities: []
             };
         });
+    }
+
+    isAdmin(): boolean {
+        if (this.decoded) {
+            const authorities = this.decoded.authorities;
+            if (authorities) {
+                return authorities.some(x => x === 'admin');
+            }
+        }
+        return false;
+    }
+    isLogged(): boolean {
+        return !!this.authenticatedUser;
     }
 }
