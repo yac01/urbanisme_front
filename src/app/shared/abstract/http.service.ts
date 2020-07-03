@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, observable } from 'rxjs';
 import { environment } from '../../../environments/environment.prod';
 import { Injectable } from '@angular/core';
+import { startWith, finalize } from 'rxjs/operators';
+import { LoadingService } from './loading.service';
 
 export enum HttpMethod {
     GET = 'GET', POST = 'POST', PUT = 'PUT'
@@ -11,7 +13,7 @@ export enum HttpMethod {
 })
 export class HttpService {
     private regex = new RegExp('^.*[\{].*[\}].*');
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private loadingService: LoadingService) {
 
     }
     public exchange(endpoint: string, method: HttpMethod, opts: {headers?: {name: string, value: string} [],
@@ -45,23 +47,35 @@ export class HttpService {
                 }
             });
         }
+        this.loadingService.loadingStarts();
         if (method === HttpMethod.GET) {
             if (response) {
-                return this.http.get(endpoint, {headers, observe: 'response'});
+                return this.http.get(endpoint, {headers, observe: 'response'}).pipe(
+                    finalize(() => this.loadingService.loadingEnds())
+                );
             } else {
-                return this.http.get(endpoint, {headers, observe: 'body'});
+                return this.http.get(endpoint, {headers, observe: 'body'}).pipe(
+                    finalize(() => this.loadingService.loadingEnds())
+                );
 
             }
 
         } else if (method === HttpMethod.POST) {
             if (response) {
-                return this.http.post(endpoint, opts.body, {headers, observe: 'response'});
+                return this.http.post(endpoint, opts.body, {headers, observe: 'response'}).pipe(
+                    finalize(() => this.loadingService.loadingEnds())
+                );
             } else {
-                return this.http.post(endpoint, opts.body, {headers, observe: 'body'});
+                return this.http.post(endpoint, opts.body, {headers, observe: 'body'}).pipe(
+                    finalize(() => this.loadingService.loadingEnds())
+                );
             }
         } else if (method === HttpMethod.PUT) {
-            return this.http.put(endpoint, opts.body, {headers});
+            return this.http.put(endpoint, opts.body, {headers}).pipe(
+                finalize(() => this.loadingService.loadingEnds())
+            );
         }
+        this.loadingService.loadingEnds();
         throw new Error('Unsupported method');
     }
 }

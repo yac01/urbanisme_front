@@ -32,7 +32,13 @@ export class JwtInterceptor implements HttpInterceptor {
                         this.authService.refresh();
                         if (this.authService.authenticatedUser) {
                             this.appendHeader(req, this.authService.authenticatedUser.access_token);
-                            return next.handle(req);
+                            return next.handle(req).pipe(
+                                catchError(_error => {
+                                    this.router.navigateByUrl('/login')
+                                    .then(_res => this.toastr.warning('Vous devez être authentifié pour y accéder'));
+                                    return EMPTY;
+                                })
+                            );
                         }
                         this.router.navigateByUrl('/login').then(_res => this.toastr.warning('Vous devez être authentifié pour y accéder'));
                     }

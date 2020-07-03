@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule, MatButtonModule, MatCheckboxModule, MatPaginatorModule, MatFormField, MatFormFieldModule, MatInputModule, MatIconModule, MatMenuModule, MatSelectModule } from '@angular/material';
+import { MatTableModule, MatButtonModule, MatCheckboxModule, MatPaginatorModule, MatFormField, MatFormFieldModule, MatInputModule, MatIconModule, MatMenuModule, MatSelectModule, MatDialogModule, MatSnackBarModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { ArrPipe } from './arr.pipe';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { LoadingComponent } from './loading.component';
 
 @NgModule({
-  declarations: [ArrPipe],
+  declarations: [ArrPipe, ConfirmationDialogComponent, LoadingComponent],
   imports: [
 
   CommonModule,
@@ -21,7 +23,10 @@ import { ArrPipe } from './arr.pipe';
     MatInputModule,
     MatIconModule,
     MatMenuModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    
   ],
   exports: [
     MatTableModule,
@@ -36,7 +41,13 @@ import { ArrPipe } from './arr.pipe';
     ToastrModule,
     MatMenuModule,
     MatSelectModule,
-    ArrPipe
+    ArrPipe,
+    ConfirmationDialogComponent,
+    MatSnackBarModule,
+    LoadingComponent
+  ],
+  entryComponents: [
+    LoadingComponent
   ]
 })
 export class SharedModule { }

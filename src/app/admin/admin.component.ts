@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {MatPaginator, MatCheckboxChange} from '@angular/material';
+import {MatPaginator, MatCheckboxChange, MatDialog} from '@angular/material';
 import { AdminDatasource } from './admin.datasource';
 import { HttpService, HttpMethod } from '../shared/abstract/http.service';
 import { AbstractDataSource } from './../shared/abstract/abstract-datasource';
 import { AuthService } from './../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-admin',
@@ -13,11 +14,11 @@ import { ToastrService } from 'ngx-toastr';
 })
 
 export class AdminComponent implements OnInit {
-  displayedColumns = ['username', 'email', 'group', 'administration', 'processing', 'groups'];
+  displayedColumns = ['username', 'email', 'group', 'administration', 'processing', 'groups', 'delete'];
   dataSource: AbstractDataSource<any>;
 
   @ViewChild(MatPaginator) paginator;
-  constructor(private service: HttpService, private s: AuthService, private toastr: ToastrService) {
+  constructor(private service: HttpService, private s: AuthService, private toastr: ToastrService, private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -36,6 +37,29 @@ export class AdminComponent implements OnInit {
       return element.authorities.some(a => a.role === permission);
     }
     return false;
+  }
+
+  public handleDelete(element) {
+    this.dialog.open(ConfirmationDialogComponent, {
+      width: '600px',
+      height: '250px',
+      data: {
+        ask: `Etes vous sur de vouloir supprimer l'utilisateur '${element.username}' ?`,
+        args: [element],
+        context: this,
+        callback: this.doDelete
+      }
+    });
+  }
+  public doDelete(element) {
+    this.service.exchange('/urban/user/delete/{name}', HttpMethod.PUT, {pathParams: [{name: 'name', value: element.username}]})
+    .subscribe(
+      () => {
+        this.toastr.info(`L'utilistateur '${element.username}' a été supprimé avec succès`);
+        this.dataSource.triggerRefresh();
+      },
+      () => this.toastr.error('Une erreur est survenue lors de la suppression')
+    );
   }
 }
 

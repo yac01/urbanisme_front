@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>{{data.title ? data.title : 'Popup de confirmation'}}</h1>
+<div mat-dialog-content>
+  <div class="row alert alert-warning" role="alert">
+    Attention : Toute suppresion est définitive
+  </div>
+  <div class="row">
+    {{data.ask}}
+  </div>
+</div>
+<div mat-dialog-actions class="row float-right">
+  <button mat-raised-button (click)="close()">Annuler</button>
+  <button mat-raised-button color="accent" cdkFocusInitial (click)="actionWrapper()" cdkFocusInitial>Valider</button>
+</div>
