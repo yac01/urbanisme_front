@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 import { HttpService, HttpMethod } from 'src/app/shared/abstract/http.service';
 import { ToastrService } from 'ngx-toastr';
 import { AbstractDataSource } from './../../shared/abstract/abstract-datasource';
-import { MatPaginator } from '@angular/material';
+import { MatPaginator, MatDialog } from '@angular/material';
 import { GroupDatasource } from './group.datasource';
+import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-group',
@@ -18,7 +19,8 @@ export class GroupComponent implements OnInit {
   dataSource: AbstractDataSource<any>;
 
   @ViewChild(MatPaginator) paginator;
-  constructor(private fb: FormBuilder, private router: Router, private http: HttpService, private toastr: ToastrService) { }
+  constructor(private fb: FormBuilder, private router: Router,
+              private http: HttpService, private toastr: ToastrService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.formGroup = this.fb.group({
@@ -42,6 +44,18 @@ export class GroupComponent implements OnInit {
     }, err => this.toastr.error('Erreur lors de la création du groupe'));
   }
 
+  public handleDeletion(name: string) {
+    this.dialog.open(ConfirmationDialogComponent, {
+      width: '600px',
+      height: '250px',
+      data: {
+        callback: this.delete,
+        ask: `Etes vous sur de vouloir supprimer le groupe '${name}' ?`,
+        context: this,
+        args: [name]
+      }
+    });
+  }
   public delete(name: string) {
     this.http.exchange('/urban/group/delete', HttpMethod.PUT, {reqParams : [{name: 'name', value: name}]}).subscribe(
       () => {
