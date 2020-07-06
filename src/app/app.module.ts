@@ -12,6 +12,7 @@ import { SharedModule } from './shared/shared.module';
 import { JwtInterceptor } from './security/auth.interceptor';
 import { PaginationIntl } from './shared/pagination-intls';
 import { MatPaginatorIntl } from '@angular/material';
+import { IssueModule } from './issue/issue.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ BrowserModule,
     BannerModule,
     SharedModule,
     AdminModule,
-    LoginModule
+    LoginModule,
+    IssueModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

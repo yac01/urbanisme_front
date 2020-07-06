@@ -6,6 +6,7 @@ import {CreateUpdateUserComponent} from './admin/create-update-user/create-updat
 import { GroupComponent } from './admin/group/group.component';
 import { GroupResolver } from './resolver/group.resolver';
 import { AdminGuard } from './security/admin.guard';
+import { IssueCreateComponent } from './issue/issue-create/issue-create.component';
 
 const routes: Routes = [
   {path: 'admin', canActivateChild: [AdminGuard], children : [
@@ -16,6 +17,12 @@ const routes: Routes = [
     {path: 'group', component: GroupComponent},
     {path : '**', redirectTo: 'admin'}
 
+  ]},
+  {path: 'issues', children: [
+    {path: 'create', component: IssueCreateComponent, resolve: {
+      availableGroup: GroupResolver
+    }
+  }
   ]},
   {path: 'login', component: LoginComponent},
 ];

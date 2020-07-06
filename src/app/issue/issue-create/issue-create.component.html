@@ -1,0 +1,52 @@
+<form [formGroup]="group" class="mat-elevation-z2 top-space-heading">
+  <div class="row">
+    <div class="col">
+      <mat-form-field class="form-field">
+        <mat-label>Titre</mat-label>
+        <input matInput placeholder="Le titre de l'incident" formControlName="title">
+        <mat-error *ngIf="group.controls.title?.errors?.required">Ce champ est obligatoire</mat-error>
+        <mat-error *ngIf="group.controls.title?.errors?.minLength">Minimum 6 charactères</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field class="form-field">
+        <mat-label>Auteur</mat-label>
+        <input matInput placeholder="Email de l'auteur" disabled value="{{auth.decoded.email}}">
+        <mat-error *ngIf="group.controls.email?.errors?.required">Ce champ est obligatoire</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row top-space-little">
+
+    <div class="col" >
+      <mat-form-field class="form-field" style="padding-left:2.5%!important;padding-right:2.5%!important;">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="Problème dans la salle de bain" formControlName="description"></textarea>
+        <mat-error *ngIf="group.controls.description?.errors?.required">Ce champ est obligatoire</mat-error>
+        <mat-error *ngIf="group.controls.description?.errors?.maxlength">Taille maximum 400 caractères</mat-error>
+        <mat-error *ngIf="group.controls.description?.errors?.minlength">Taille minimum 40 caractères</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row top-space-little">
+    <div class="col-md-6">
+      <mat-form-field class="form-field">
+        <mat-label>Groupes</mat-label>
+        <mat-select formControlName="groups" multiple>
+          <mat-option *ngFor="let g of availableGroup" [value]="g.name">{{g.name}} - {{g.description}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row top-space-little">
+    <div class="col bottom-space-little">
+      <div style="margin-right:15px">
+        <button mat-raised-button color="accent" (click)="create()" [disabled]="group.invalid" class="float-right" style="margin-right:15px;margin-left:15px">Créer incident</button>
+        <button mat-raised-button color="light" class="float-right" (click)="back()" >Retour</button>
+      </div>
+
+    </div>
+  </div>
+</form>
