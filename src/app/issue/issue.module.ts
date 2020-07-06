@@ -11,7 +11,8 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule
   ],
   exports: [
-    IssueCreateComponent
+    IssueCreateComponent,
+    IssueListComponent
   ]
 })
 export class IssueModule { }

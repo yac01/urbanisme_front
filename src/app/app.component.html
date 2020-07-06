@@ -1,5 +1,5 @@
 <div>
-  <header>
+  <header *ngIf="auth.isLogged()">
     <app-banner></app-banner>
   </header>
   <section class="container-fluid">

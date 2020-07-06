@@ -13,8 +13,11 @@ import { Router } from '@angular/router';
           <button mat-menu-item [routerLink]="['/admin/create']">Nouveau</button>
           <button mat-menu-item [routerLink]="['/admin/group']">Groupes</button>
         </mat-menu>
-        <a mat-button *ngIf="auth.isLogged()" class="b-m-r" [routerLink]="['/issues']">Incidents</a>
-
+        <a mat-button *ngIf="auth.isLogged()" [matMenuTriggerFor]="issueMenu" class="b-m-r">Incidents</a>
+        <mat-menu #issueMenu="matMenu">
+          <button mat-menu-item [routerLink]="['/issues/create']">Créer incident</button>
+          <button mat-menu-item [routerLink]="['/issues/list']">Mes incidents</button>
+        </mat-menu>
         <button *ngIf="auth.isLogged()" mat-icon-button [matMenuTriggerFor]="moreMenu" class="float-right">
           <mat-icon>more_vert</mat-icon>
         </button>

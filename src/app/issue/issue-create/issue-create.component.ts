@@ -35,7 +35,7 @@ export class IssueCreateComponent implements OnInit {
     this.http.exchange('/urban/issue/create', HttpMethod.POST, {body})
     .subscribe(ok => {
       this.toastr.info('Incident créé avec succès');
-      this.router.navigateByUrl('/admin');
+      this.router.navigateByUrl('/issues/list');
     },
     err => this.toastr.error('Une erreur est survenue lors de la création de l\'incident'));
   }

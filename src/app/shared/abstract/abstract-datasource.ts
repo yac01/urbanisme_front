@@ -15,7 +15,8 @@ export class AbstractDataSource<T> extends DataSource<T> {
     constructor(private paginator: MatPaginator, private httpService: HttpService, private endpoint: string, private method: HttpMethod, private opts: {
         reqParams?: {name: string , value: string} [],
         pathParams?: {name: string , value: string} [],
-        headers?: {name: string , value: string} []
+        headers?: {name: string , value: string} [],
+        body?: any
     }) {
         super();
         if (!this.opts.reqParams) {

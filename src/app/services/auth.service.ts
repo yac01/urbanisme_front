@@ -32,7 +32,7 @@ export class AuthService {
             };
             localStorage.setItem('auth', JSON.stringify(this.authenticatedUser));
             this._decoded = jwt_decode(this.authenticatedUser.access_token);
-            this.router.navigateByUrl('/admin/user');
+            this.router.navigateByUrl('/issues/list');
         }, err => {
             if (err.status === 401) {
                 this.toastr.error(`erreur d'autentification. identifiant mot de passe incorrect`);

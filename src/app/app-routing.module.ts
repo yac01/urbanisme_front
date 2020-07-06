@@ -7,9 +7,11 @@ import { GroupComponent } from './admin/group/group.component';
 import { GroupResolver } from './resolver/group.resolver';
 import { AdminGuard } from './security/admin.guard';
 import { IssueCreateComponent } from './issue/issue-create/issue-create.component';
+import { IssueListComponent } from './issue/issue-list/issue-list.component';
+import { LoggedInGuard } from './security/logged-in.guard';
 
 const routes: Routes = [
-  {path: 'admin', canActivateChild: [AdminGuard], children : [
+  {path: 'admin', canActivateChild: [AdminGuard, LoggedInGuard], children : [
     {path: 'create', component: CreateUpdateUserComponent, resolve: {
       availableGroup: GroupResolver
     }},
@@ -18,11 +20,12 @@ const routes: Routes = [
     {path : '**', redirectTo: 'admin'}
 
   ]},
-  {path: 'issues', children: [
+  {path: 'issues', canActivateChild: [LoggedInGuard], children: [
     {path: 'create', component: IssueCreateComponent, resolve: {
       availableGroup: GroupResolver
-    }
-  }
+    },
+  },
+  {path: 'list', component: IssueListComponent}
   ]},
   {path: 'login', component: LoginComponent},
 ];
