@@ -9,6 +9,7 @@ import { AdminGuard } from './security/admin.guard';
 import { IssueCreateComponent } from './issue/issue-create/issue-create.component';
 import { IssueListComponent } from './issue/issue-list/issue-list.component';
 import { LoggedInGuard } from './security/logged-in.guard';
+import { IssueEditionComponent } from './issue/issue-edition/issue-edition.component';
 
 const routes: Routes = [
   {path: 'admin', canActivateChild: [AdminGuard, LoggedInGuard], children : [
@@ -25,6 +26,7 @@ const routes: Routes = [
       availableGroup: GroupResolver
     },
   },
+  {path: 'edit', component : IssueEditionComponent},
   {path: 'list', component: IssueListComponent}
   ]},
   {path: 'login', component: LoginComponent},
