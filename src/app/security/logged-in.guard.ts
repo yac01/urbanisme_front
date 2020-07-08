@@ -13,7 +13,7 @@ export class LoggedInGuard implements CanActivateChild {
         state: RouterStateSnapshot): boolean | import("@angular/router").UrlTree | import("rxjs").Observable<boolean | import("@angular/router").UrlTree> | Promise<boolean | import("@angular/router").UrlTree> {
         if (!this.auth.isLogged()) {
             this.toastr.warning('Vous devez être authentifié pour accèder à cette ressource');
-            this.router.navigateByUrl('/login');
+            this.router.navigateByUrl('/login').then(x => false);
             return false;
         }
         return true;

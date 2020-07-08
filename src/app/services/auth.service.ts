@@ -22,6 +22,10 @@ export class AuthService {
             this.authenticatedUser = JSON.parse(authAsString);
         }
     }
+    public clear() {
+        this._decoded = null;
+        this.authenticatedUser = null;
+    }
     public login(username: string, password: string) {
         this.http.exchange('/jwt/generate', HttpMethod.POST, {body: {username, password}})
         .subscribe((res: any) => {
