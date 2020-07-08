@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
         <mat-menu #issueMenu="matMenu">
           <button mat-menu-item [routerLink]="['/issues/create']">Créer incident</button>
           <button mat-menu-item [routerLink]="['/issues/list']">Mes incidents</button>
-        </mat-menu>
+        </mat-menu> 
         <button *ngIf="auth.isLogged()" mat-icon-button [matMenuTriggerFor]="moreMenu" class="float-right">
           <mat-icon>more_vert</mat-icon>
         </button>

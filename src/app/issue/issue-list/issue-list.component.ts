@@ -23,8 +23,8 @@ export class IssueListComponent implements OnInit {
     this.dataSource = new IssueDatasource(this.paginator, this.http, body);
   }
 
-  edit(){
-   this.router.navigateByUrl("/issues/edit" );
+  edit(element:any){
+   this.router.navigate(["/issues/edit"],{state: {element} });
   }
 
 }

@@ -26,7 +26,9 @@ const routes: Routes = [
       availableGroup: GroupResolver
     },
   },
-  {path: 'edit', component : IssueEditionComponent},
+  {path: 'edit', component : IssueEditionComponent, resolve: {
+    availableGroup: GroupResolver
+  }},
   {path: 'list', component: IssueListComponent}
   ]},
   {path: 'login', component: LoginComponent},
